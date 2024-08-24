@@ -10,10 +10,10 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'content', 'test_image_ids'];
 
-    public function images(): HasMany
+    public function media(): HasMany
     {
-        return $this->hasMany(PostImage::class);
+        return $this->hasMany(Media::class);
     }
 }

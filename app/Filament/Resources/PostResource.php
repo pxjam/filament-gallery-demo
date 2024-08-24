@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
+use App\Forms\Components;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -27,6 +28,9 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
                     ->placeholder('Title'),
+                Components\RelatedMediaUpload::make('attachments')
+                    ->multiple()
+                    ->reorderable(),
                 Forms\Components\RichEditor::make('content')
                     ->label('Content')
                     ->placeholder('Content'),
