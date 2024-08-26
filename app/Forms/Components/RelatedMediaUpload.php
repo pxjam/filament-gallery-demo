@@ -31,7 +31,7 @@ class RelatedMediaUpload extends FileUpload
             $component->state($state);
         });
 
-        $this->afterStateHydrated(static function (BaseFileUpload $component, string | array | null $state): void {
+        $this->afterStateHydrated(static function (BaseFileUpload $component, string|array|null $state): void {
             if (is_array($state)) {
                 return;
             }
@@ -42,6 +42,26 @@ class RelatedMediaUpload extends FileUpload
         $this->beforeStateDehydrated(null);
 
         $this->dehydrated(false);
+
+        $this->getUploadedFileUsing(function (RelatedMediaUpload $component, string $file): ?array {
+            $media = Media::find($file);
+
+            if (!$media) {
+                return null;
+            }
+
+            return [
+                'name' => $media->name,
+                'size' => $media->size,
+                'type' => $media->mime_type,
+                'url' => asset('storage/uploads/' . $media->file_name),
+            ];
+        });
+
+        $this->saveRelationshipsUsing(static function (RelatedMediaUpload $component) {
+            //            $component->deleteAbandonedFiles();
+            $component->saveUploadedFiles();
+        });
 
         $this->saveUploadedFileUsing(
             function (RelatedMediaUpload $component, TemporaryUploadedFile $file, ?Model $record): ?string {
@@ -87,21 +107,6 @@ class RelatedMediaUpload extends FileUpload
             if ($media) {
                 $media->delete();
             }
-        });
-
-        $this->getUploadedFileUsing(function (RelatedMediaUpload $component, string $file): ?array {
-            $media = Media::find($file);
-
-            if (!$media) {
-                return null;
-            }
-
-            return [
-                'name' => $media->name,
-                'size' => $media->size,
-                'type' => $media->mime_type,
-                'url' => asset('storage/uploads/' . $media->file_name),
-            ];
         });
 
         $this->reorderUploadedFilesUsing(function (RelatedMediaUpload $component, ?Model $record, array $state): array {
