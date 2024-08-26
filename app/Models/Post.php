@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'test_image_ids'];
+    protected $fillable = ['title', 'content'];
 
     public function media(): HasMany
     {
