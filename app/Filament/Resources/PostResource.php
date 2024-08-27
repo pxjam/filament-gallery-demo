@@ -11,8 +11,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class PostResource extends Resource
@@ -28,12 +26,17 @@ class PostResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
                     ->placeholder('Title'),
-                Components\RelatedMediaUpload::make('attachments')
-                    ->multiple()
-                    ->reorderable(),
                 Forms\Components\RichEditor::make('content')
                     ->label('Content')
                     ->placeholder('Content'),
+                Forms\Components\Section::make('Related Media')
+                    ->columns(1)
+                    ->schema([
+                        Components\RelatedMediaUpload::make('media')
+                            ->multiple()
+                            ->panelLayout('grid')
+                            ->reorderable()
+                    ]),
             ]);
     }
 

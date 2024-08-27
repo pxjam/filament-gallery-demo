@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
@@ -12,8 +13,8 @@ class Post extends Model
 
     protected $fillable = ['title', 'content'];
 
-    public function media(): HasMany
+    public function media(): MorphMany
     {
-        return $this->hasMany(Media::class);
+        return $this->morphMany(Media::class, 'model');
     }
 }

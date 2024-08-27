@@ -10,6 +10,8 @@ use App\Models\Media;
 
 class RelatedMediaUpload extends FileUpload
 {
+    protected string $view = 'forms.components.related-media-upload';
+
     protected function setUp(): void
     {
         parent::setUp();
